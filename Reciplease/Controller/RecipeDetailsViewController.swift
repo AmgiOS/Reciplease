@@ -9,22 +9,21 @@
 import UIKit
 
 class RecipeDetailsViewController: UIViewController {
-
+    //MARK: - Vars
+    var detailsRecipe: RecipeJSON?
+    //MARK: - @IBOUTLET
+    @IBOutlet weak var recipeImageView: UIImageView!
+    @IBOutlet weak var listIngredientsTextView: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        displayDetails()
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func displayDetails() {
+        guard var ingredientsList = listIngredientsTextView.text, !ingredientsList.isEmpty else {
+            return
+        }
+        ingredientsList = "ingredients"
     }
-    */
-
 }

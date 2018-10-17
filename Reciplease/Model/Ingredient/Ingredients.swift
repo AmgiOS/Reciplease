@@ -14,4 +14,9 @@ class Ingredients: NSManagedObject {
         guard let ingredients = try? AppDelegate.viewContext.fetch(request) else { return [] }
         return ingredients
     }
+    
+    static func deleteAll() {
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: Ingredients.fetchRequest())
+        let _ = try? AppDelegate.viewContext.execute(deleteRequest)
+    }
 }

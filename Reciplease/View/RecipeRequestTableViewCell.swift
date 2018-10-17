@@ -10,15 +10,16 @@ import UIKit
 
 class RecipeRequestTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var recipeImageView: UIImageView!
+    @IBOutlet weak var nameRecipeLabel: UILabel!
+    @IBOutlet weak var ingredientsLabel: UILabel!
+    
+    var recipe: Description? {
+        didSet {
+            nameRecipeLabel.text = recipe?.recipeName ?? ""
+            recipe?.ingredients.forEach({ (ingredient) in
+                ingredientsLabel.text = ingredient + " ..."
+            })
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

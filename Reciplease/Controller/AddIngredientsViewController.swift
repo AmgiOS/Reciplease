@@ -7,11 +7,16 @@
 //
 
 import UIKit
-import CoreData
 
 class AddIngredientsViewController: UIViewController {
-
-    //MARK: @IBOUTLET
+    
+    //MARK: - Vars
+    var ingredient = Ingredients.all
+    var recipeService = RecipeService()
+    var ingredientList = [String]()
+    var recipeJSON: RecipeJSON?
+    
+    //MARK: - @IBOUTLET
     @IBOutlet weak var ingredientsTextField: UITextField!
     @IBOutlet weak var ingredientsTextView: UITextView!
     
@@ -20,35 +25,39 @@ class AddIngredientsViewController: UIViewController {
         displayIngredientList()
     }
     
-    //MARK: @IBACTION
+    //MARK: - @IBACTION
     @IBAction func addIngredientsButton(_ sender: Any) {
-        guard let addIngredients = ingredientsTextField.text, !addIngredients.isEmpty,
-            var listIngredients = ingredientsTextView.text else {
-                alertTextFieldIsEmpty()
-                return
+        guard let addIngredients = ingredientsTextField.text, !addIngredients.isEmpty else {
+            alertTextFieldIsEmpty()
+            return
         }
-        
-        listIngredients += "- " + addIngredients + "\n"
-        ingredientsTextView.text = listIngredients
+        separatedComma(text: addIngredients)
         ingredientsTextField.text = ""
         ingredientsTextField.endEditing(true)
-        
-        saveIngredients(named: addIngredients)
     }
     
     @IBAction func clearListButton(_ sender: UIButton) {
-        ingredientsTextView.text.removeAll()
+        Ingredients.deleteAll()
+        ingredient = Ingredients.all
+        ingredientsTextView.text = ""
     }
     
     @IBAction func searchRecipe(_ sender: UIButton) {
         guard let listIngredients = ingredientsTextView.text, !listIngredients.isEmpty else {
-            navigationController?.popViewController(animated: true)
             alertTextFieldIsEmpty()
             return
         }
+        recipeService.getRecipe(ingredients: ingredientList) { (success, recipe) in
+            if success {
+                self.recipeJSON = recipe
+                self.performSegue(withIdentifier: "segueRequest", sender: nil)
+            }
+        }
     }
-    
-    //MARK: FUNCTIONS
+}
+
+extension AddIngredientsViewController {
+    //MARK: - FUNCTIONS
     private func saveIngredients(named ingredients: String) {
         let ingredient = Ingredients(context: AppDelegate.viewContext)
         ingredient.ingredient = ingredients
@@ -63,21 +72,40 @@ class AddIngredientsViewController: UIViewController {
         var ingredientText = ""
         for ingredients in Ingredients.all {
             if let ingredient = ingredients.ingredient {
-                ingredientText += ingredient + "\n"
+                ingredientText += ingredient
             }
         }
-        ingredientsTextField.text = ingredientText
+        ingredientsTextView.text = ingredientText
+    }
+    
+    private func separatedComma(text: String) {
+        var textSeparated = ""
+        let textComma = text.split(separator: " ")
+        for element in textComma {
+            ingredientList.append(String(element))
+            textSeparated += String(element) + "," + "\n"
+        }
+        ingredientsTextView.text += textSeparated
+        saveIngredients(named: textSeparated)
+    }
+    
+    //MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueRequest" {
+            guard let recipeController = segue.destination as? RecipeRequestTableViewController else { return }
+                recipeController.recipeJson = recipeJSON
+        }
     }
 }
 
 extension AddIngredientsViewController: UITextFieldDelegate {
-    //MARK: TEXTFIELD
+    //MARK: - TEXTFIELD
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         ingredientsTextField.endEditing(true)
         return true
     }
     
-    //MARK: ALERT
+    //MARK: - ALERT
     private func alertTextFieldIsEmpty() {
         let alert = UIAlertController(title: "Text Is Empty", message: "Enter ingredients", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
