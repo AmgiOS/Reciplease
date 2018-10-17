@@ -13,11 +13,17 @@ struct RecipeJSON: Decodable {
 }
 
 struct Description: Decodable {
-    var imageUrlsBySize: ImagesUrl
+    var imageUrlsBySize: ImageUrlsBySize
     var recipeName: String
     var ingredients: [String]
+    var totalTimeInSeconds: Int
+    var rating: Int
 }
 
-struct ImagesUrl: Decodable {
+struct ImageUrlsBySize: Decodable {
+    var the90: String
     
+    enum CodingKeys: String, CodingKey {
+        case the90 = "90"
+    }
 }

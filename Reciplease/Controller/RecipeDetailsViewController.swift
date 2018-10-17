@@ -24,6 +24,8 @@ class RecipeDetailsViewController: UIViewController {
         guard var ingredientsList = listIngredientsTextView.text, !ingredientsList.isEmpty else {
             return
         }
-        ingredientsList = "ingredients"
+        detailsRecipe?.matches.forEach({ (details) in
+            ingredientsList = details.recipeName
+        })
     }
 }

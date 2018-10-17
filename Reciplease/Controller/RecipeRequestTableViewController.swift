@@ -28,11 +28,11 @@ class RecipeRequestTableViewController: UITableViewController {
 
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return recipeJson?.matches.count ?? 1
+        return recipeJson.matches.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recipeJson?.matches.count ?? 1
+        return recipeJson.matches.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
