@@ -30,8 +30,8 @@ class RecipeRequestTableViewCell: UITableViewCell {
             recipe?.ingredients.forEach({ (ingredient) in
                 ingredientsLabel.text?.append(ingredient + ",")
             })
-            ratesLabel.text = "\(String(describing: recipe.rating))/5" 
-            timeLabel.text = "\(recipe.totalTimeInSeconds / 60) Min"
+            ratesLabel.text = "\(String(describing: recipe.rating))/5⭐️" 
+            timeLabel.text = "\(recipe.totalTimeInSeconds / 60) Min🕑"
         }
     }
 }

@@ -19,6 +19,8 @@ class AddIngredientsViewController: UIViewController {
     //MARK: - @IBOUTLET
     @IBOutlet weak var ingredientsTextField: UITextField!
     @IBOutlet weak var ingredientsTextView: UITextView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var searchButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +49,11 @@ class AddIngredientsViewController: UIViewController {
             alertTextFieldIsEmpty()
             return
         }
+        self.loadingRequestIndicator(show: true)
         recipeService.getRecipe(ingredients: ingredientList) { (success, recipe) in
             if success {
                 self.recipeJSON = recipe
+                self.loadingRequestIndicator(show: false)
                 self.performSegue(withIdentifier: "segueRequest", sender: nil)
             }
         }
@@ -87,6 +91,16 @@ extension AddIngredientsViewController {
         }
         ingredientsTextView.text += textSeparated
         saveIngredients(named: textSeparated)
+    }
+    
+    private func loadingRequestIndicator(show: Bool) {
+        if show == true {
+            self.searchButton.isHidden = true
+            self.activityIndicator.startAnimating()
+        } else {
+            self.searchButton.isHidden = false
+            self.activityIndicator.stopAnimating()
+        }
     }
     
     //MARK: - Segue

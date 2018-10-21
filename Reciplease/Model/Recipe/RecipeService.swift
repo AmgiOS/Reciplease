@@ -13,8 +13,10 @@ class RecipeService {
     
     //MARK: - Session
     private var recipeSession: RecipeSession
-    init(recipeSession: RecipeSession = RecipeSession()) {
+    private var detailsSession: RecipeSession
+    init(recipeSession: RecipeSession = RecipeSession(), detailsSession: RecipeSession = RecipeSession()) {
         self.recipeSession = recipeSession
+        self.detailsSession = detailsSession
     }
     
     //MARK: - Functions
@@ -49,7 +51,38 @@ class RecipeService {
                     callback(false, nil)
                     return
                 }
-                print(responseJSON.matches)
+                callback(true, responseJSON)
+                
+            case .failure(let error):
+                print("\(error.localizedDescription)")
+            }
+        }
+    }
+
+    
+    private func urlDetailsApi(id: String) -> String {
+        let url = UrlDetailsApi.BASE_URL + id + UrlDetailsApi.APP_ID + UrlDetailsApi.APP_KEY
+        return url
+    }
+    
+    func getDetailsRecipe(id: String, callback: @escaping (Bool, Details?) -> Void) {
+        guard let url = URL(string: urlDetailsApi(id: id)) else { return }
+        print(url)
+        detailsSession.request(url: url) { (response) in
+            switch response.result {
+            case .success:
+                guard let data = response.data, response.error == nil else {
+                    callback(false, nil)
+                    return
+                }
+                guard let response = response.response, response.statusCode == 200 else {
+                    callback(false, nil)
+                    return
+                }
+                guard let responseJSON = try? JSONDecoder().decode(Details.self, from: data) else {
+                    callback(false, nil)
+                    return
+                }
                 callback(true, responseJSON)
                 
             case .failure(let error):

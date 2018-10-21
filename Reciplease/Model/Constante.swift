@@ -14,3 +14,9 @@ struct UrlApi {
     static let APP_KEY = "&_app_key=a54cf61393ecff9fa2c8094021a5ecac"
     static let parametersIngredients = "&allowedIngredient[]="
 }
+
+struct UrlDetailsApi {
+    static let BASE_URL = "http://api.yummly.com/v1/api/recipe/"
+    static let APP_ID = "?_app_id=9d342469"
+    static let APP_KEY = "&_app_key=a54cf61393ecff9fa2c8094021a5ecac"
+}
