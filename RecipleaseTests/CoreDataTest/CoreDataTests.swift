@@ -35,7 +35,7 @@ class CoreDataTests: XCTestCase {
     
     //MARK: - Unit Tests
     func testInsertManyToDoItemsInPersistentContainer() {
-        for _ in 0 ..< 10000 {
+        for _ in 0 ..< 1000 {
             insertTodoItem(into: container.newBackgroundContext())
         }
         XCTAssertNoThrow(try container.newBackgroundContext().save())

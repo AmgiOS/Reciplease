@@ -9,22 +9,31 @@
 import UIKit
 
 class RecipeDetailFavoriteViewController: UIViewController {
-
+    
+    //MARK: - Vars
+    var favories: Favories!
+    //MARK: - @IBOutlet
+    @IBOutlet weak var recipeImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var ingredientTextView: UITextView!
+    @IBOutlet weak var ratesLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setUp()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func getUrlButton(_ sender: Any) {
+        guard let url = URL(string: favories.getUrl!) else { return}
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
-    */
-
+    
+    private func setUp() {
+        recipeImageView.image = UIImage(data: favories.image!)
+        nameLabel.text = favories.name
+        ingredientTextView.text = "Ingredients: 🍽 \n" + favories.ingredients!
+        timeLabel.text = favories.time
+        ratesLabel.text = favories.rates
+    }
 }

@@ -9,16 +9,22 @@
 import UIKit
 
 class FavoriteTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    //MARK: - @IBOutlet
+    @IBOutlet weak var imageRecipe: UIImageView!
+    @IBOutlet weak var ratesLabel: UILabel!
+    @IBOutlet weak var timesLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var ingredientsLabel: UILabel!
+    
+    //MARK: - Vars
+    var favories: Favories! {
+        didSet {
+            imageRecipe.image = UIImage(data: favories.image!)
+            nameLabel.text = favories.name ?? ""
+            ingredientsLabel.text = favories!.ingredients! + "..."
+            ratesLabel.text = "\(favories.rates!)"
+            timesLabel.text = favories.time
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

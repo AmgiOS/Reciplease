@@ -11,20 +11,19 @@ import UIKit
 class AddIngredientsViewController: UIViewController {
     
     //MARK: - Vars
-    var ingredient = Ingredients.all
     var recipeService = RecipeService()
     var ingredientList = [String]()
     var recipeJSON: RecipeJSON?
     
     //MARK: - @IBOUTLET
     @IBOutlet weak var ingredientsTextField: UITextField!
-    @IBOutlet weak var ingredientsTextView: UITextView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var ingredientsTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        displayIngredientList()
+        ingredientsTableView.tableFooterView = UIView()
     }
     
     //MARK: - @IBACTION
@@ -39,16 +38,11 @@ class AddIngredientsViewController: UIViewController {
     }
     
     @IBAction func clearListButton(_ sender: UIButton) {
-        Ingredients.deleteAll()
-        ingredient = Ingredients.all
-        ingredientsTextView.text = ""
+        ingredientList.removeAll()
+        ingredientsTableView.reloadData()
     }
     
     @IBAction func searchRecipe(_ sender: UIButton) {
-        guard let listIngredients = ingredientsTextView.text, !listIngredients.isEmpty else {
-            alertTextFieldIsEmpty()
-            return
-        }
         self.loadingRequestIndicator(show: true)
         recipeService.getRecipe(ingredients: ingredientList) { (success, recipe) in
             if success {
@@ -60,37 +54,37 @@ class AddIngredientsViewController: UIViewController {
     }
 }
 
+extension AddIngredientsViewController: UITableViewDelegate, UITableViewDataSource {
+    //MARK: - Table View
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return ingredientList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ingredient", for: indexPath)
+        let ingredient = ingredientList[indexPath.row]
+        
+        cell.textLabel?.text = "- " + ingredient.firstUppercased
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            ingredientList.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            ingredientsTableView.reloadData()
+        }
+    }
+}
+
 extension AddIngredientsViewController {
     //MARK: - FUNCTIONS
-    private func saveIngredients(named ingredients: String) {
-        let ingredient = Ingredients(context: AppDelegate.viewContext)
-        ingredient.ingredient = ingredients
-        do {
-            try AppDelegate.viewContext.save()
-        } catch {
-            print("error save ingredients")
-        }
-    }
-    
-    private func displayIngredientList() {
-        var ingredientText = ""
-        for ingredients in Ingredients.all {
-            if let ingredient = ingredients.ingredient {
-                ingredientText += ingredient
-            }
-        }
-        ingredientsTextView.text = ingredientText
-    }
-    
     private func separatedComma(text: String) {
-        var textSeparated = ""
         let textComma = text.split(separator: " ")
         for element in textComma {
             ingredientList.append(String(element))
-            textSeparated += String(element) + "," + "\n"
         }
-        ingredientsTextView.text += textSeparated
-        saveIngredients(named: textSeparated)
+        ingredientsTableView.reloadData()
     }
     
     private func loadingRequestIndicator(show: Bool) {

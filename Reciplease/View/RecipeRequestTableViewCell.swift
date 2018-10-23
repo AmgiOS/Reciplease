@@ -9,18 +9,19 @@
 import UIKit
 
 class RecipeRequestTableViewCell: UITableViewCell {
-
+    //MARK: - @IBOutlet
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var nameRecipeLabel: UILabel!
     @IBOutlet weak var ingredientsLabel: UILabel!
     @IBOutlet weak var ratesLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     
+    //MARK: - Vars
     var recipe: Description! {
         didSet {
             do {
-                let url = URL(string: (recipe?.imageUrlsBySize.the90)!)
-                let data = try Data(contentsOf: url!)
+                guard let url = URL(string: ((recipe?.imageUrlsBySize.the90)!)) else { return }
+                let data = try Data(contentsOf: url)
                 self.recipeImageView.image = UIImage(data: data)
             }
             catch{
@@ -31,7 +32,7 @@ class RecipeRequestTableViewCell: UITableViewCell {
                 ingredientsLabel.text?.append(ingredient + ",")
             })
             ratesLabel.text = "\(String(describing: recipe.rating))/5⭐️" 
-            timeLabel.text = "\(recipe.totalTimeInSeconds / 60) Min🕑"
+            timeLabel.text = "\(recipe.totalTimeInSeconds / 60)Min🕑"
         }
     }
 }

@@ -26,6 +26,6 @@ class RecipeSessionFake: RecipeSession {
         
         let result = Request.serializeResponseJSON(options: .allowFragments, response: httpResponse, data: data, error: error)
 //        let urlRequest = URLRequest(url: URL(string: urlStringApi)!)
-        completionHandler(DataResponse(request: urlRequest, response: httpResponse, data: data, result: result))
+//        completionHandler(DataResponse(request: urlRequest, response: httpResponse, data: data, result: result))
     }
 }

@@ -20,3 +20,10 @@ struct UrlDetailsApi {
     static let APP_ID = "?_app_id=9d342469"
     static let APP_KEY = "&_app_key=a54cf61393ecff9fa2c8094021a5ecac"
 }
+
+extension String {
+    var firstUppercased: String {
+        guard let first = first else { return "" }
+        return String(first).uppercased() + dropFirst()
+    }
+}
