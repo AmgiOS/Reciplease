@@ -22,7 +22,6 @@ class FavoriteTableViewCell: UITableViewCell {
         didSet {
             imageRecipe.image = UIImage(data: favories.image!)
             nameLabel.text = favories.name ?? ""
-            ingredientsLabel.text = favories!.ingredients! + "..."
             ratesLabel.text = "\(favories.rates!)"
             timesLabel.text = favories.time
         }

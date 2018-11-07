@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class RecipeDetailsViewController: UIViewController {
     //MARK: - Vars
@@ -20,6 +21,13 @@ class RecipeDetailsViewController: UIViewController {
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if saveButton.tintColor == UIColor.red {
+            
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,9 +70,7 @@ extension RecipeDetailsViewController {
         let data = try? Data(contentsOf: url)
         favories.image = data
         favories.name = detailsRecipe.name
-        for ingredient in detailsRecipe.ingredientLines {
-            favories.ingredients = ingredient
-        }
+        getIngredients(favories: favories)
         favories.getUrl = detailsRecipe.source.sourceRecipeURL
         favories.rates = "\(detailsRecipe.rating)/5⭐️"
         favories.time = detailsRecipe.totalTime + "🕑"
@@ -73,6 +79,21 @@ extension RecipeDetailsViewController {
             favorie = Favories.all
         } catch let error {
             print("\(error.localizedDescription)")
+        }
+    }
+    
+    private func getIngredients(favories: Favories?) {
+        guard let entity = NSEntityDescription.entity(forEntityName: "Ingredient", in: AppDelegate.viewContext) else { return }
+        let ingredient = NSManagedObject(entity: entity, insertInto: AppDelegate.viewContext)
+        detailsRecipe.ingredientLines.forEach { (element) in
+            ingredient.setValue(element, forKey: "ingredients")
+            print(ingredient)
+        }
+        do {
+            try AppDelegate.viewContext.save()
+            print("save ingredients")
+        } catch {
+            print("error save ingredients")
         }
     }
 }

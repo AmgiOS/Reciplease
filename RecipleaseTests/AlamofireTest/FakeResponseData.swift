@@ -13,12 +13,11 @@ class FakeResponseData {
     
     //MARK: - Fake Response data
     static let responseOK = HTTPURLResponse(url: URL(string: "https://openclassrooms.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
-    static let responseKO = HTTPURLResponse(url: URL(string: "https://openclassrooms.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+    static let responseKO = HTTPURLResponse(url: URL(string: "https://openclassrooms.com")!, statusCode: 500, httpVersion: nil, headerFields: nil)
 
     //MARK: - Error
-    class NetworkError: Error {
-        static let error = NetworkError()
-    }
+    class NetworkError: Error {}
+    static let error = NetworkError()
     
     //MARK: - Correct Data
     static var recipeCorrect: Data {

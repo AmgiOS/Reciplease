@@ -12,6 +12,7 @@ class RecipeDetailFavoriteViewController: UIViewController {
     
     //MARK: - Vars
     var favories: Favories!
+    var ingredients: Ingredient?
     //MARK: - @IBOutlet
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -22,6 +23,7 @@ class RecipeDetailFavoriteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
+        print(ingredients?.ingredients)
     }
     
     @IBAction func getUrlButton(_ sender: Any) {
@@ -32,7 +34,6 @@ class RecipeDetailFavoriteViewController: UIViewController {
     private func setUp() {
         recipeImageView.image = UIImage(data: favories.image!)
         nameLabel.text = favories.name
-        ingredientTextView.text = "Ingredients: 🍽 \n" + favories.ingredients!
         timeLabel.text = favories.time
         ratesLabel.text = favories.rates
     }

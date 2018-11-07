@@ -27,6 +27,7 @@ class FavoriteViewController: UIViewController {
     }
     
     @IBAction func removeAllList(_ sender: Any) {
+        Ingredient.deleteAllIngredients()
         Favories.deleteAllData()
         favories = Favories.all
         favoriesTableView.reloadData()
