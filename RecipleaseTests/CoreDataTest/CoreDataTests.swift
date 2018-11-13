@@ -23,6 +23,7 @@ class CoreDataTests: XCTestCase {
     
     override func tearDown() {
         Favories.deleteAllData()
+        Ingredient.deleteAllIngredients()
         container = nil
         super.tearDown()
     }
@@ -30,7 +31,9 @@ class CoreDataTests: XCTestCase {
     //MARK: - Helper Methods
     private func insertTodoItem(into managedObjectContext: NSManagedObjectContext) {
         let newTodoItem = Favories(context: managedObjectContext)
+        let ingredientToDoItem = Ingredient(context: managedObjectContext)
         newTodoItem.name = "Chili"
+        ingredientToDoItem.details = "Coco"
     }
     
     //MARK: - Unit Tests
@@ -43,6 +46,8 @@ class CoreDataTests: XCTestCase {
     
     func testDeleteAllToDoItemsInPersistentContainer() {
         Favories.deleteAllData()
+        Ingredient.deleteAllIngredients()
         XCTAssertEqual(Favories.all, [])
+        XCTAssertEqual(Ingredient.all, [])
     }
 }

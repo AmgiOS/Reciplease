@@ -10,14 +10,18 @@ import UIKit
 
 class FavoriteViewController: UIViewController {
     //MARK: - Vars
-    var favories = Favories.all
-    var favorie: Favories!
+    var favoriesAll = Favories.all
+    var ingredients: Ingredient!
+    var ingredientAll = Ingredient.all
+    
     //MARK - @IBOutlet
     @IBOutlet weak var favoriesTableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        favories = Favories.all
+        tabBarController?.tabBar.items?[1].badgeValue = nil
+        favoriesAll = Favories.all
+        ingredientAll = Ingredient.all
         favoriesTableView.reloadData()
     }
     
@@ -26,17 +30,20 @@ class FavoriteViewController: UIViewController {
         favoriesTableView.tableFooterView = UIView()
     }
     
+    //MARK: - @IBAction
     @IBAction func removeAllList(_ sender: Any) {
         Ingredient.deleteAllIngredients()
         Favories.deleteAllData()
-        favories = Favories.all
+        favoriesAll = Favories.all
         favoriesTableView.reloadData()
     }
     
+    //MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "favoritesSegue" {
             guard let detailsFavories = segue.destination as? RecipeDetailFavoriteViewController else { return }
             detailsFavories.favories = sender as? Favories
+            detailsFavories.ingredients = ingredients
         }
     }
 }
@@ -44,24 +51,27 @@ class FavoriteViewController: UIViewController {
 extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     //MARK: - TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favories.count
+        return favoriesAll.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "favoriteCell", for: indexPath) as? FavoriteTableViewCell else {
             return UITableViewCell()
         }
-        let favorie = favories[indexPath.row]
+        let favorie = favoriesAll[indexPath.row]
+        let ingredient = ingredientAll[indexPath.row]
         
         cell.favories = favorie
+        cell.ingredientsLabel.text = ingredient.ingredients
+        ingredients = ingredient
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            AppDelegate.viewContext.delete(favories[indexPath.row])
-            favories.remove(at: indexPath.row)
+            AppDelegate.viewContext.delete(favoriesAll[indexPath.row])
+            favoriesAll.remove(at: indexPath.row)
             do {
                 try AppDelegate.viewContext.save()
             } catch {

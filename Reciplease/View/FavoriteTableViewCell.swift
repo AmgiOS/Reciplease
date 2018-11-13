@@ -20,9 +20,9 @@ class FavoriteTableViewCell: UITableViewCell {
     //MARK: - Vars
     var favories: Favories! {
         didSet {
-            imageRecipe.image = UIImage(data: favories.image!)
+            imageRecipe.image = UIImage(data: favories.image ?? Data())
             nameLabel.text = favories.name ?? ""
-            ratesLabel.text = "\(favories.rates!)"
+            ratesLabel.text = favories.rates ?? ""
             timesLabel.text = favories.time
         }
     }

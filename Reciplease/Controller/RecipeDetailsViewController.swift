@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import CoreData
+import UserNotifications
 
 class RecipeDetailsViewController: UIViewController {
     //MARK: - Vars
@@ -24,9 +24,6 @@ class RecipeDetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if saveButton.tintColor == UIColor.red {
-            
-        }
     }
     
     override func viewDidLoad() {
@@ -34,6 +31,7 @@ class RecipeDetailsViewController: UIViewController {
         displayDetails()
     }
     
+    //MARK: - @IBAction
     @IBAction func openUrlButton(_ sender: Any) {
         guard let url = URL(string: detailsRecipe.source.sourceRecipeURL) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -42,6 +40,7 @@ class RecipeDetailsViewController: UIViewController {
     @IBAction func saveRecipe(_ sender: Any) {
         saveRecipe()
         saveButton.tintColor? = UIColor.red
+        tabBarController?.tabBar.items?[1].badgeValue = "New"
     }
 }
 
@@ -70,10 +69,15 @@ extension RecipeDetailsViewController {
         let data = try? Data(contentsOf: url)
         favories.image = data
         favories.name = detailsRecipe.name
-        getIngredients(favories: favories)
         favories.getUrl = detailsRecipe.source.sourceRecipeURL
-        favories.rates = "\(detailsRecipe.rating)/5⭐️"
+        favories.rates = "\(detailsRecipe.rating)⭐️"
         favories.time = detailsRecipe.totalTime + "🕑"
+        let ingredient = Ingredient(context: AppDelegate.viewContext)
+        detailsRecipe.ingredientLines.forEach { (element) in
+            ingredient.ingredients = element + "..."
+        }
+        ingredient.details = listIngredientsTextView.text
+        ingredient.recipe = favories
         do {
             try AppDelegate.viewContext.save()
             favorie = Favories.all
@@ -81,19 +85,14 @@ extension RecipeDetailsViewController {
             print("\(error.localizedDescription)")
         }
     }
-    
-    private func getIngredients(favories: Favories?) {
-        guard let entity = NSEntityDescription.entity(forEntityName: "Ingredient", in: AppDelegate.viewContext) else { return }
-        let ingredient = NSManagedObject(entity: entity, insertInto: AppDelegate.viewContext)
-        detailsRecipe.ingredientLines.forEach { (element) in
-            ingredient.setValue(element, forKey: "ingredients")
-            print(ingredient)
-        }
-        do {
-            try AppDelegate.viewContext.save()
-            print("save ingredients")
-        } catch {
-            print("error save ingredients")
+}
+
+extension RecipeDetailsViewController {
+    //MARK - Alert
+    private func alertSaveRecipe() {
+        let alert = UIAlertController(title: "Save", message: "You have save this recipe in your library", preferredStyle: .alert)
+        self.present(alert, animated: true) {
+            
         }
     }
 }
