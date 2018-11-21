@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import UserNotifications
 
 class RecipeDetailsViewController: UIViewController {
     //MARK: - Vars
@@ -38,9 +37,14 @@ class RecipeDetailsViewController: UIViewController {
     }
     
     @IBAction func saveRecipe(_ sender: Any) {
-        saveRecipe()
-        saveButton.tintColor? = UIColor.red
-        tabBarController?.tabBar.items?[1].badgeValue = "New"
+        if saveButton.tintColor != UIColor.red {
+            saveButton.tintColor = UIColor.red
+            saveRecipe()
+            tabBarController?.tabBar.items?[1].badgeValue = "New"
+        } else {
+            favorie = Favories.all
+            saveButton.tintColor = UIColor.white
+        }
     }
 }
 
@@ -59,7 +63,7 @@ extension RecipeDetailsViewController {
         for ingredients in detailsRecipe.ingredientLines {
             listIngredientsTextView.text.append("\n" + ingredients)
         }
-        ratingLabel.text = "\(detailsRecipe.rating)/5⭐️"
+        ratingLabel.text = "\(detailsRecipe.rating)⭐️"
         timeLabel.text = detailsRecipe.totalTime + "🕑"
     }
     
@@ -73,10 +77,7 @@ extension RecipeDetailsViewController {
         favories.rates = "\(detailsRecipe.rating)⭐️"
         favories.time = detailsRecipe.totalTime + "🕑"
         let ingredient = Ingredient(context: AppDelegate.viewContext)
-        detailsRecipe.ingredientLines.forEach { (element) in
-            ingredient.ingredients = element + "..."
-        }
-        ingredient.details = listIngredientsTextView.text
+        Ingredient.getAllIngredient(ingredients: detailsRecipe.ingredientLines, ingredient: ingredient)
         ingredient.recipe = favories
         do {
             try AppDelegate.viewContext.save()
@@ -89,10 +90,4 @@ extension RecipeDetailsViewController {
 
 extension RecipeDetailsViewController {
     //MARK - Alert
-    private func alertSaveRecipe() {
-        let alert = UIAlertController(title: "Save", message: "You have save this recipe in your library", preferredStyle: .alert)
-        self.present(alert, animated: true) {
-            
-        }
-    }
 }

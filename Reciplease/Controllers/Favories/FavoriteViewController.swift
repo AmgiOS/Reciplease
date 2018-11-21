@@ -11,6 +11,7 @@ import UIKit
 class FavoriteViewController: UIViewController {
     //MARK: - Vars
     var favoriesAll = Favories.all
+    var favorites: Favories!
     var ingredients: Ingredient!
     var ingredientAll = Ingredient.all
     
@@ -32,10 +33,9 @@ class FavoriteViewController: UIViewController {
     
     //MARK: - @IBAction
     @IBAction func removeAllList(_ sender: Any) {
-        Ingredient.deleteAllIngredients()
-        Favories.deleteAllData()
-        favoriesAll = Favories.all
-        favoriesTableView.reloadData()
+        if !favoriesAll.isEmpty {
+            deleteAllRecipe()
+        }
     }
     
     //MARK: - Segue
@@ -62,7 +62,8 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         let ingredient = ingredientAll[indexPath.row]
         
         cell.favories = favorie
-        cell.ingredientsLabel.text = ingredient.ingredients
+        cell.ingredientsLabel.text = "\(favorie.ingredients?.allObjects as! [Ingredient])"
+        print(favorie.ingredients?.allObjects as! [Ingredient])
         ingredients = ingredient
         return cell
     }
@@ -85,5 +86,32 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? FavoriteTableViewCell else { return }
         self.performSegue(withIdentifier: "favoritesSegue", sender: cell.favories)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if favoriesAll.isEmpty {
+            let label = UILabel()
+            label.text = "Get Recipe and Save it"
+            label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+            label.textAlignment = .center
+            label.textColor = .white
+            return label
+        }
+        return UIView()
+    }
+}
+
+extension FavoriteViewController {
+    //MARK: - Alert
+    private func deleteAllRecipe() {
+        let alert = UIAlertController(title: "Delete All Recipes", message: "Do you want delete all Recipes?", preferredStyle: .actionSheet)
+        alert.addAction((UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+            Ingredient.deleteAllIngredients()
+            Favories.deleteAllData()
+            self.favoriesAll = Favories.all
+            self.favoriesTableView.reloadData()
+        })))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }

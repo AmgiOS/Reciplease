@@ -20,4 +20,17 @@ class Ingredient: NSManagedObject {
         let deleteFetchRequest = NSBatchDeleteRequest(fetchRequest: Ingredient.fetchRequest())
         let _ = try? AppDelegate.viewContext.execute(deleteFetchRequest)
     }
+    
+    static func getAllIngredient(ingredients: [String], ingredient: Ingredient?) {
+        for i in ingredients {
+            do {
+                let object = NSEntityDescription.insertNewObject(forEntityName: "Ingredient", into: AppDelegate.viewContext) as NSManagedObject
+                object.setValue(i, forKey: "name")
+                print("save ingredients")
+                try AppDelegate.viewContext.save()
+            } catch {
+                print("error save ingredients")
+            }
+        }
+    }
 }

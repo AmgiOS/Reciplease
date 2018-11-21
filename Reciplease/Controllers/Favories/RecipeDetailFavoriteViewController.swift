@@ -42,7 +42,7 @@ class RecipeDetailFavoriteViewController: UIViewController {
     private func setUp() {
         recipeImageView.image = UIImage(data: favories.image!)
         nameLabel.text = favories.name
-        ingredientTextView.text = ingredients.details
+        ingredientTextView.text = ingredients.name
         timeLabel.text = favories.time
         ratesLabel.text = favories.rates
     }

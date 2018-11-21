@@ -43,13 +43,17 @@ class AddIngredientsViewController: UIViewController {
     }
     
     @IBAction func searchRecipe(_ sender: UIButton) {
-        self.loadingRequestIndicator(show: true)
-        recipeService.getRecipe(ingredients: ingredientList) { (success, recipe) in
-            if success {
-                self.recipeJSON = recipe
-                self.loadingRequestIndicator(show: false)
-                self.performSegue(withIdentifier: "segueRequest", sender: nil)
+        if NetworkState.isConnected() {
+            let sv = UIViewController.displaySpinner(onView: self.view)
+            recipeService.getRecipe(ingredients: ingredientList) { (success, recipe) in
+                if success {
+                    self.recipeJSON = recipe
+                    UIViewController.removeSpinner(spinner: sv)
+                    self.performSegue(withIdentifier: "segueRequest", sender: nil)
+                }
             }
+        } else {
+            alertIsConnectionFailed()
         }
     }
 }
@@ -87,16 +91,6 @@ extension AddIngredientsViewController {
         ingredientsTableView.reloadData()
     }
     
-    private func loadingRequestIndicator(show: Bool) {
-        if show == true {
-            self.searchButton.isHidden = true
-            self.activityIndicator.startAnimating()
-        } else {
-            self.searchButton.isHidden = false
-            self.activityIndicator.stopAnimating()
-        }
-    }
-    
     //MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueRequest" {
@@ -116,6 +110,12 @@ extension AddIngredientsViewController: UITextFieldDelegate {
     //MARK: - ALERT
     private func alertTextFieldIsEmpty() {
         let alert = UIAlertController(title: "Text Is Empty", message: "Enter ingredients", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func alertIsConnectionFailed() {
+        let alert = UIAlertController(title: "Connection Failed", message: "Verified your connection", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }

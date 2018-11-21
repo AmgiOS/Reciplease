@@ -20,4 +20,6 @@ class Favories: NSManagedObject {
     let deleteFetchRequest = NSBatchDeleteRequest(fetchRequest: Favories.fetchRequest())
     let _ = try? AppDelegate.viewContext.execute(deleteFetchRequest)
     }
+    
+    
 }
