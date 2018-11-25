@@ -6,11 +6,10 @@
 //  Copyright © 2018 Amg-Industries. All rights reserved.
 //
 
-import Foundation
 import Alamofire
 
 class NetworkState {
-    class func isConnected() -> Bool {
+    static func isConnected() -> Bool {
         return NetworkReachabilityManager()!.isReachable
     }
 }

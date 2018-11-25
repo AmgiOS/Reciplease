@@ -17,7 +17,7 @@ protocol RecipeProtocol {
     var urlStringDetailsKey: String { get }
     
     //MARK: - Function
-    func request (url: URL, method: HTTPMethod?, parameters: Parameters?, encoding: URLEncoding?, completionHandler: @escaping (DataResponse<Any>) -> Void)
+    func request (url: URL, method: HTTPMethod?, parameters: Parameters?, completionHandler: @escaping (DataResponse<Any>) -> Void)
 }
 
 extension RecipeProtocol {

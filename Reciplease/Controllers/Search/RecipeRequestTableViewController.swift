@@ -17,10 +17,6 @@ class RecipeRequestTableViewController: UITableViewController {
     //MARK: @IBOUTLET
     @IBOutlet var recipeRequestTableView: UITableView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     //MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailsSegue" {
@@ -48,10 +44,13 @@ class RecipeRequestTableViewController: UITableViewController {
         getDetailsRecipe(id: cell.recipe.id)
     }
     
+    //MARK: - Functions
     private func getDetailsRecipe(id: String) {
+        let sv = UIViewController.displaySpinner(onView: self.view)
         recipeService.getDetailsRecipe(id: id) { (success, detail) in
             if success {
                 self.detailsRecipe = detail
+                UIViewController.removeSpinner(spinner: sv)
                 self.performSegue(withIdentifier: "detailsSegue", sender: nil)
             }
         }

@@ -9,11 +9,12 @@
         <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="recipe" inverseEntity="Ingredient" syncable="YES"/>
     </entity>
     <entity name="Ingredient" representedClassName=".Ingredient" syncable="YES" codeGenerationType="category">
+        <attribute name="details" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Favories" inverseName="ingredients" inverseEntity="Favories" syncable="YES"/>
     </entity>
     <elements>
         <element name="Favories" positionX="-42.14453125" positionY="-29.765625" width="96.99609375" height="133"/>
-        <element name="Ingredient" positionX="144.5078125" positionY="20.453125" width="128" height="73"/>
+        <element name="Ingredient" positionX="144.5078125" positionY="20.453125" width="128" height="90"/>
     </elements>
 </model>

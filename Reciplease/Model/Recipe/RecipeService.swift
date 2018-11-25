@@ -7,13 +7,11 @@
 //
 
 import Foundation
-import Alamofire
 
 class RecipeService {
     
     //MARK: - Session
     private var recipeSession: RecipeSession
-    
     init(recipeSession: RecipeSession = RecipeSession()) {
         self.recipeSession = recipeSession
     }
@@ -22,17 +20,15 @@ class RecipeService {
     func getRecipe(ingredients: [String], completionHandler: @escaping (Bool, RecipeJSON?) -> Void ) {
         guard let url = URL(string: recipeSession.urlStringApi) else { return }
         let parameters = ["q": ingredients]
-        recipeSession.request(url: url, method: .get, parameters: parameters, encoding: URLEncoding.default) { (response) in
+        recipeSession.request(url: url, method: .get, parameters: parameters) { response in
             guard response.response?.statusCode == 200, response.error == nil else {
                 completionHandler(false, nil)
                 return
             }
-            
             guard let data = response.data else {
                 completionHandler(false, nil)
                 return
             }
-            
             guard let responseJSON = try? JSONDecoder().decode(RecipeJSON.self, from: data) else {
                 completionHandler(false, nil)
                 return
@@ -40,22 +36,18 @@ class RecipeService {
             completionHandler(true, responseJSON)
         }
     }
-
     
     private func urlDetailsApi(id: String) -> String {
         let url = recipeSession.urlStringDetails + id + recipeSession.urlStringDetailsKey
         return url
     }
-    
     func getDetailsRecipe(id: String, completionHandler: @escaping (Bool, Details?) -> Void) {
         guard let url = URL(string: urlDetailsApi(id: id)) else { return }
-        print(url)
-        recipeSession.request(url: url, method: .get, parameters: nil, encoding: URLEncoding.default) { (response) in
+        recipeSession.request(url: url, method: .get, parameters: nil) { response in
             guard response.response?.statusCode == 200, response.error == nil else {
                 completionHandler(false, nil)
                 return
             }
-            
             guard let data = response.data else {
                 completionHandler(false, nil)
                 return

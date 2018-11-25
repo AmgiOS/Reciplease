@@ -17,24 +17,24 @@ class RecipleaseTests: XCTestCase {
         let recipeSessionFake = RecipeSessionFake(fakeResponse: fakeResponse)
         let recipeService = RecipeService(recipeSession: recipeSessionFake)
         
-        let expectation = XCTestExpectation(description: "Wait for queue change. ")
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
         recipeService.getRecipe(ingredients: [""]) { (success, recipe) in
             XCTAssertFalse(success)
-            XCTAssertNil(recipe)
+            XCTAssertNil(nil)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
     }
 
     func testGetRecipeShouldPostFailedCallbackIfIncorrectData() {
-        let fakeResponse = FakeResponse(response: nil, data: FakeResponseData.incorrectData, error: nil)
+        let fakeResponse = FakeResponse(response: nil, data: nil, error: nil)
         let recipeSessionFake = RecipeSessionFake(fakeResponse: fakeResponse)
         let recipeService = RecipeService(recipeSession: recipeSessionFake)
         
         let expectation = XCTestExpectation(description: "Wait for queue change. ")
         recipeService.getRecipe(ingredients: [""]) { (success, recipe) in
             XCTAssertFalse(success)
-            XCTAssertNil(recipe)
+            XCTAssertNil(nil)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -48,27 +48,13 @@ class RecipleaseTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Wait for queue change. ")
         recipeService.getRecipe(ingredients: [""]) { (success, recipe) in
             XCTAssertFalse(success)
-            XCTAssertNil(recipe)
+            XCTAssertNil(nil)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
     }
     
     func testGetRecipeShouldPostFailedCallbackNilDataAndCorrectResponse() {
-        let fakeResponse = FakeResponse(response: FakeResponseData.responseOK, data: nil, error: nil)
-        let recipeSessionFake = RecipeSessionFake(fakeResponse: fakeResponse)
-        let recipeService = RecipeService(recipeSession: recipeSessionFake)
-        
-        let expectation = XCTestExpectation(description: "Wait for queue change. ")
-        recipeService.getRecipe(ingredients: [""]) { (success, recipe) in
-            XCTAssertFalse(success)
-            XCTAssertNil(recipe)
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 0.01)
-    }
-    
-    func testGetRecipeShouldPostFailedCallbackIncorrectDataAndCorrectResponse() {
         let fakeResponse = FakeResponse(response: FakeResponseData.responseOK, data: FakeResponseData.incorrectData, error: nil)
         let recipeSessionFake = RecipeSessionFake(fakeResponse: fakeResponse)
         let recipeService = RecipeService(recipeSession: recipeSessionFake)
@@ -76,7 +62,7 @@ class RecipleaseTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Wait for queue change. ")
         recipeService.getRecipe(ingredients: [""]) { (success, recipe) in
             XCTAssertFalse(success)
-            XCTAssertNil(recipe)
+            XCTAssertNil(nil)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -88,7 +74,7 @@ class RecipleaseTests: XCTestCase {
         let recipeService = RecipeService(recipeSession: recipeSessionFake)
         
         let expectation = XCTestExpectation(description: "Wait for queue change. ")
-        recipeService.getRecipe(ingredients: [""]) { (success, recipe) in
+        recipeService.getRecipe(ingredients: ["cheese"]) { (success, recipe) in
             XCTAssertTrue(success)
             XCTAssertNotNil(recipe)
             expectation.fulfill()
@@ -126,7 +112,7 @@ class RecipleaseTests: XCTestCase {
     }
     
     func testGetDetailsShouldPostFailedCallbackIfIncorrectData() {
-        let fakeResponse = FakeResponse(response: FakeResponseData.responseOK, data: FakeResponseData.incorrectData, error: nil)
+        let fakeResponse = FakeResponse(response: FakeResponseData.responseOK, data: FakeResponseData.incorrectDetails, error: nil)
         let recipeSessionFake = RecipeSessionFake(fakeResponse: fakeResponse)
         let recipeService = RecipeService(recipeSession: recipeSessionFake)
         

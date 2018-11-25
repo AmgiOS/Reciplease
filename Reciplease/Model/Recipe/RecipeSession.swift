@@ -10,9 +10,9 @@ import Foundation
 import Alamofire
 
 class RecipeSession: RecipeProtocol {
-    func request(url: URL, method: HTTPMethod?, parameters: Parameters?, encoding: URLEncoding?, completionHandler: @escaping (DataResponse<Any>) -> Void) {
+    func request(url: URL, method: HTTPMethod?, parameters: Parameters?, completionHandler: @escaping (DataResponse<Any>) -> Void) {
         Alamofire.request(url, method: .get
-            , parameters: parameters, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            , parameters: parameters).responseJSON { response in
                 completionHandler(response)
         }
     }

@@ -6,13 +6,12 @@
 //  Copyright © 2018 Amg-Industries. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 class FavoriteViewController: UIViewController {
     //MARK: - Vars
     var favoriesAll = Favories.all
-    var favorites: Favories!
-    var ingredients: Ingredient!
     var ingredientAll = Ingredient.all
     
     //MARK - @IBOutlet
@@ -42,8 +41,10 @@ class FavoriteViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "favoritesSegue" {
             guard let detailsFavories = segue.destination as? RecipeDetailFavoriteViewController else { return }
+            guard let indexPath = favoriesTableView.indexPathForSelectedRow else { return }
+            let ingredient = ingredientAll[indexPath.row]
+            detailsFavories.ingredients = ingredient
             detailsFavories.favories = sender as? Favories
-            detailsFavories.ingredients = ingredients
         }
     }
 }
@@ -62,9 +63,7 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         let ingredient = ingredientAll[indexPath.row]
         
         cell.favories = favorie
-        cell.ingredientsLabel.text = "\(favorie.ingredients?.allObjects as! [Ingredient])"
-        print(favorie.ingredients?.allObjects as! [Ingredient])
-        ingredients = ingredient
+        cell.ingredientsLabel.text = ingredient.name
         return cell
     }
     

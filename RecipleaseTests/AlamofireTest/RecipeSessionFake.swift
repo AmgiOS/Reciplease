@@ -19,7 +19,7 @@ class RecipeSessionFake: RecipeSession {
         super.init()
     }
     
-    override func request(url: URL, method: HTTPMethod?, parameters: Parameters?, encoding: URLEncoding?, completionHandler: @escaping (DataResponse<Any>) -> Void) {
+    override func request(url: URL, method: HTTPMethod?, parameters: Parameters?, completionHandler: @escaping (DataResponse<Any>) -> Void) {
         let httpResponse = fakeResponse.response
         let data = fakeResponse.data
         let error = fakeResponse.error

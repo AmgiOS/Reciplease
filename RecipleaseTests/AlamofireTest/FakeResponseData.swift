@@ -36,4 +36,5 @@ class FakeResponseData {
     
     //MARK: - Incorrect Data
     static let incorrectData = "error".data(using: .utf8)!
+    static let incorrectDetails = "error".data(using: .utf8)!
 }

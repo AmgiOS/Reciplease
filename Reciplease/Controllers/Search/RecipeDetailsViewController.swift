@@ -12,7 +12,6 @@ class RecipeDetailsViewController: UIViewController {
     //MARK: - Vars
     var detailsRecipe: Details!
     var favorie = Favories.all
-    
     //MARK: - @IBOUTLET
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var listIngredientsTextView: UITextView!
@@ -23,6 +22,11 @@ class RecipeDetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        guard let nameID = nameLabel.text else { return }
+        if Favories.someObjectExist(id: nameID) {
+            saveButton.tintColor = UIColor.red
+            print("Already save")
+        }
     }
     
     override func viewDidLoad() {
@@ -37,14 +41,9 @@ class RecipeDetailsViewController: UIViewController {
     }
     
     @IBAction func saveRecipe(_ sender: Any) {
-        if saveButton.tintColor != UIColor.red {
             saveButton.tintColor = UIColor.red
             saveRecipe()
             tabBarController?.tabBar.items?[1].badgeValue = "New"
-        } else {
-            favorie = Favories.all
-            saveButton.tintColor = UIColor.white
-        }
     }
 }
 
@@ -77,7 +76,12 @@ extension RecipeDetailsViewController {
         favories.rates = "\(detailsRecipe.rating)⭐️"
         favories.time = detailsRecipe.totalTime + "🕑"
         let ingredient = Ingredient(context: AppDelegate.viewContext)
-        Ingredient.getAllIngredient(ingredients: detailsRecipe.ingredientLines, ingredient: ingredient)
+        var list = ""
+        for i in detailsRecipe.ingredientLines {
+            list.append(i + "\n")
+        }
+        ingredient.name = list
+        ingredient.details = listIngredientsTextView.text
         ingredient.recipe = favories
         do {
             try AppDelegate.viewContext.save()

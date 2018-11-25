@@ -21,5 +21,19 @@ class Favories: NSManagedObject {
     let _ = try? AppDelegate.viewContext.execute(deleteFetchRequest)
     }
     
-    
+    static func someObjectExist(id: String) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Favories")
+        let predicate = NSPredicate(format: "name == %@", id)
+        fetchRequest.predicate = predicate
+        fetchRequest.fetchLimit = 1
+        
+        var entitiesCount = 0
+        
+        do {
+            entitiesCount = try AppDelegate.viewContext.count(for: fetchRequest)
+        } catch {
+            print("error executing fetch request")
+        }
+        return entitiesCount > 0
+    }
 }
