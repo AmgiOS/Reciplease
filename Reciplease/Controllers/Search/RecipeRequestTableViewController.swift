@@ -12,6 +12,7 @@ class RecipeRequestTableViewController: UITableViewController {
     //MARK: - Vars
     var recipeJson: RecipeJSON!
     var detailsRecipe: Details!
+    var listIngredient = [String]()
     var recipeService = RecipeService()
     
     //MARK: @IBOUTLET
@@ -22,6 +23,7 @@ class RecipeRequestTableViewController: UITableViewController {
         if segue.identifier == "detailsSegue" {
             guard let detailsController = segue.destination as? RecipeDetailsViewController else { return }
             detailsController.detailsRecipe = detailsRecipe
+            detailsController.list = listIngredient
         }
     }
 
@@ -41,6 +43,8 @@ class RecipeRequestTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? RecipeRequestTableViewCell else { return }
+         let ingredients = cell.recipe.ingredients
+        listIngredient = ingredients
         getDetailsRecipe(id: cell.recipe.id)
     }
     

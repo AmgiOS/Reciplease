@@ -11,7 +11,9 @@ import UIKit
 class RecipeDetailsViewController: UIViewController {
     //MARK: - Vars
     var detailsRecipe: Details!
-    var favorie = Favories.all
+    var recipe = Recipe.all
+    var list = [String]()
+    
     //MARK: - @IBOUTLET
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var listIngredientsTextView: UITextView!
@@ -23,9 +25,8 @@ class RecipeDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let nameID = nameLabel.text else { return }
-        if Favories.someObjectExist(id: nameID) {
+        if Recipe.someObjectExist(id: nameID) {
             saveButton.tintColor = UIColor.red
-            print("Already save")
         }
     }
     
@@ -67,31 +68,28 @@ extension RecipeDetailsViewController {
     }
     
     private func saveRecipe() {
-        let favories = Favories(context: AppDelegate.viewContext)
+        let recipe = Recipe(context: AppDelegate.viewContext)
         guard let url = URL(string: (detailsRecipe.images[0].hostedLargeURL)) else { return }
         let data = try? Data(contentsOf: url)
-        favories.image = data
-        favories.name = detailsRecipe.name
-        favories.getUrl = detailsRecipe.source.sourceRecipeURL
-        favories.rates = "\(detailsRecipe.rating)⭐️"
-        favories.time = detailsRecipe.totalTime + "🕑"
-        let ingredient = Ingredient(context: AppDelegate.viewContext)
-        var list = ""
-        for i in detailsRecipe.ingredientLines {
-            list.append(i + "\n")
+        recipe.image = data
+        recipe.name = detailsRecipe.name
+        recipe.getUrl = detailsRecipe.source.sourceRecipeURL
+        recipe.rates = "\(detailsRecipe.rating)⭐️"
+        recipe.time = detailsRecipe.totalTime + "🕑"
+        for detail in detailsRecipe.ingredientLines {
+            let details = DetailEntity(context: AppDelegate.viewContext)
+            details.list = detail
+            details.recipe = recipe
         }
-        ingredient.name = list
-        ingredient.details = listIngredientsTextView.text
-        ingredient.recipe = favories
+        for ingredient in list {
+            let listIngredient = Ingredient(context: AppDelegate.viewContext)
+            listIngredient.name = ingredient
+            listIngredient.recipe = recipe
+        }
         do {
             try AppDelegate.viewContext.save()
-            favorie = Favories.all
         } catch let error {
             print("\(error.localizedDescription)")
         }
     }
-}
-
-extension RecipeDetailsViewController {
-    //MARK - Alert
 }

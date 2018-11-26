@@ -11,8 +11,7 @@ import UIKit
 class RecipeDetailFavoriteViewController: UIViewController {
     
     //MARK: - Vars
-    var favories: Favories!
-    var ingredients: Ingredient!
+    var recipe: Recipe!
     
     //MARK: - @IBOutlet
     @IBOutlet weak var recipeImageView: UIImageView!
@@ -28,16 +27,18 @@ class RecipeDetailFavoriteViewController: UIViewController {
     
     //MARK: - @IBAction
     @IBAction func getUrlButton(_ sender: Any) {
-        guard let url = URL(string: favories.getUrl!) else { return}
+        guard let url = URL(string: recipe.getUrl!) else { return}
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
     //MARK: - Function
     private func setUp() {
-        recipeImageView.image = UIImage(data: favories.image!)
-        nameLabel.text = favories.name
-        ingredientTextView.text = ingredients.details
-        timeLabel.text = favories.time
-        ratesLabel.text = favories.rates
+        recipeImageView.image = UIImage(data: recipe.image!)
+        nameLabel.text = recipe.name
+        for element in recipe.details?.reversed() as! [DetailEntity] {
+         ingredientTextView.text.append(element.list! + "\n")
+        }
+        timeLabel.text = recipe.time
+        ratesLabel.text = recipe.rates
     }
 }

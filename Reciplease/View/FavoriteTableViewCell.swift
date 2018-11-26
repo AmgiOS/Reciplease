@@ -18,12 +18,12 @@ class FavoriteTableViewCell: UITableViewCell {
     @IBOutlet weak var ingredientsLabel: UILabel!
     
     //MARK: - Vars
-    var favories: Favories! {
+    var recipe: Recipe! {
         didSet {
-            imageRecipe.image = UIImage(data: favories.image ?? Data())
-            nameLabel.text = favories.name ?? ""
-            ratesLabel.text = favories.rates ?? ""
-            timesLabel.text = favories.time
+            imageRecipe.image = UIImage(data: recipe.image ?? Data())
+            nameLabel.text = recipe.name ?? ""
+            ratesLabel.text = recipe.rates ?? ""
+            timesLabel.text = recipe.time
         }
     }
 }
