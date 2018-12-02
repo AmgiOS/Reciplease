@@ -28,9 +28,12 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gFc-Ra-f9s">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gFc-Ra-f9s">
                                                     <rect key="frame" x="187" y="0.0" width="188" height="99.5"/>
                                                     <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="188" id="F4n-OY-PlX"/>
+                                                    </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="pNh-Zj-Ndy">
                                                     <rect key="frame" x="335.5" y="5" width="34.5" height="25"/>
@@ -52,8 +55,9 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="VDf-8Q-e94">
+                                                <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="VDf-8Q-e94">
                                                     <rect key="frame" x="3" y="5" width="184" height="89.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nom De Recette" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3hq-f8-uN3">
                                                             <rect key="frame" x="0.0" y="0.0" width="184" height="19.5"/>
@@ -72,16 +76,11 @@
                                             </subviews>
                                             <color key="backgroundColor" red="0.1078716441988945" green="0.21948245167732239" blue="0.22353196144104004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
-                                                <constraint firstItem="VDf-8Q-e94" firstAttribute="top" secondItem="O8c-Iw-16N" secondAttribute="top" constant="5" id="H9z-WI-KNj"/>
-                                                <constraint firstAttribute="bottom" secondItem="gFc-Ra-f9s" secondAttribute="bottom" id="P32-oU-nSC"/>
-                                                <constraint firstAttribute="trailing" secondItem="pNh-Zj-Ndy" secondAttribute="trailing" constant="5" id="Tfu-8Y-5p9"/>
-                                                <constraint firstAttribute="bottom" secondItem="VDf-8Q-e94" secondAttribute="bottom" constant="5" id="b7a-dU-l2j"/>
-                                                <constraint firstItem="pNh-Zj-Ndy" firstAttribute="top" secondItem="O8c-Iw-16N" secondAttribute="top" constant="5" id="cGY-dJ-szO"/>
-                                                <constraint firstItem="gFc-Ra-f9s" firstAttribute="leading" secondItem="VDf-8Q-e94" secondAttribute="trailing" id="eqQ-rG-XAs"/>
-                                                <constraint firstItem="VDf-8Q-e94" firstAttribute="leading" secondItem="O8c-Iw-16N" secondAttribute="leading" constant="3" id="nHs-Nr-rSf"/>
-                                                <constraint firstItem="gFc-Ra-f9s" firstAttribute="leading" secondItem="O8c-Iw-16N" secondAttribute="leading" constant="187" id="pUl-ii-7Lx"/>
-                                                <constraint firstAttribute="trailing" secondItem="gFc-Ra-f9s" secondAttribute="trailing" id="t9H-WO-kn9"/>
-                                                <constraint firstItem="gFc-Ra-f9s" firstAttribute="top" secondItem="O8c-Iw-16N" secondAttribute="top" id="zqt-qQ-A3e"/>
+                                                <constraint firstItem="gFc-Ra-f9s" firstAttribute="top" secondItem="O8c-Iw-16N" secondAttribute="top" id="6Qs-At-H1x"/>
+                                                <constraint firstItem="gFc-Ra-f9s" firstAttribute="centerY" secondItem="O8c-Iw-16N" secondAttribute="centerY" id="SUq-xH-suB"/>
+                                                <constraint firstAttribute="trailing" secondItem="gFc-Ra-f9s" secondAttribute="trailing" id="Wba-XQ-0rv"/>
+                                                <constraint firstItem="pNh-Zj-Ndy" firstAttribute="top" secondItem="O8c-Iw-16N" secondAttribute="top" constant="5" id="gLo-Gk-WhZ"/>
+                                                <constraint firstAttribute="trailing" secondItem="pNh-Zj-Ndy" secondAttribute="trailing" constant="5" id="ynO-fX-0kA"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.23173660039999999" green="0.4585740566" blue="0.46667158600000003" alpha="0.47982662669999998" colorSpace="custom" customColorSpace="displayP3"/>

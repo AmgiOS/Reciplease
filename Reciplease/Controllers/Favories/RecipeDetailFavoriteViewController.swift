@@ -35,7 +35,7 @@ class RecipeDetailFavoriteViewController: UIViewController {
     private func setUp() {
         recipeImageView.image = UIImage(data: recipe.image!)
         nameLabel.text = recipe.name
-        for element in recipe.details?.reversed() as! [DetailEntity] {
+        for element in recipe.details?.allObjects as! [DetailEntity] {
          ingredientTextView.text.append(element.list! + "\n")
         }
         timeLabel.text = recipe.time

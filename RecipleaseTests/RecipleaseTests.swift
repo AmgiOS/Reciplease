@@ -20,7 +20,7 @@ class RecipleaseTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         recipeService.getRecipe(ingredients: [""]) { (success, recipe) in
             XCTAssertFalse(success)
-            XCTAssertNil(nil)
+            XCTAssertNil(recipe)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -31,10 +31,10 @@ class RecipleaseTests: XCTestCase {
         let recipeSessionFake = RecipeSessionFake(fakeResponse: fakeResponse)
         let recipeService = RecipeService(recipeSession: recipeSessionFake)
         
-        let expectation = XCTestExpectation(description: "Wait for queue change. ")
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
         recipeService.getRecipe(ingredients: [""]) { (success, recipe) in
             XCTAssertFalse(success)
-            XCTAssertNil(nil)
+            XCTAssertNil(recipe)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -48,7 +48,7 @@ class RecipleaseTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Wait for queue change. ")
         recipeService.getRecipe(ingredients: [""]) { (success, recipe) in
             XCTAssertFalse(success)
-            XCTAssertNil(nil)
+            XCTAssertNil(recipe)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -62,7 +62,7 @@ class RecipleaseTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Wait for queue change. ")
         recipeService.getRecipe(ingredients: [""]) { (success, recipe) in
             XCTAssertFalse(success)
-            XCTAssertNil(nil)
+            XCTAssertNil(recipe)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -74,7 +74,7 @@ class RecipleaseTests: XCTestCase {
         let recipeService = RecipeService(recipeSession: recipeSessionFake)
         
         let expectation = XCTestExpectation(description: "Wait for queue change. ")
-        recipeService.getRecipe(ingredients: ["cheese"]) { (success, recipe) in
+        recipeService.getRecipe(ingredients: [""]) { (success, recipe) in
             XCTAssertTrue(success)
             XCTAssertNotNil(recipe)
             expectation.fulfill()

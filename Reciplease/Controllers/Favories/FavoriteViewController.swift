@@ -6,13 +6,11 @@
 //  Copyright © 2018 Amg-Industries. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class FavoriteViewController: UIViewController {
     //MARK: - Vars
     var recipeAll = Recipe.all
-    var ingredientAll = Ingredient.all
     
     //MARK - @IBOutlet
     @IBOutlet weak var favoriesTableView: UITableView!
@@ -21,7 +19,6 @@ class FavoriteViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.items?[1].badgeValue = nil
         recipeAll = Recipe.all
-        ingredientAll = Ingredient.all
         favoriesTableView.reloadData()
     }
     

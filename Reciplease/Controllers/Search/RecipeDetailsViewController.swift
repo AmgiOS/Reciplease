@@ -11,7 +11,6 @@ import UIKit
 class RecipeDetailsViewController: UIViewController {
     //MARK: - Vars
     var detailsRecipe: Details!
-    var recipe = Recipe.all
     var list = [String]()
     
     //MARK: - @IBOUTLET
@@ -44,7 +43,7 @@ class RecipeDetailsViewController: UIViewController {
     @IBAction func saveRecipe(_ sender: Any) {
             saveButton.tintColor = UIColor.red
             saveRecipe()
-            tabBarController?.tabBar.items?[1].badgeValue = "New"
+        tabBarController?.tabBar.items?[1].badgeValue = "New"
     }
 }
 

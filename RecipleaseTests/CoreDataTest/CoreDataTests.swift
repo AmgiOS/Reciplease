@@ -41,7 +41,7 @@ class CoreDataTests: XCTestCase {
     
     //MARK: - Unit Tests
     func testInsertManyToDoItemsInPersistentContainer() {
-        for _ in 0 ..< 1000 {
+        for _ in 0 ..< 100 {
             insertTodoItem(into: container.newBackgroundContext())
         }
         XCTAssertNoThrow(try container.newBackgroundContext().save())
@@ -53,5 +53,6 @@ class CoreDataTests: XCTestCase {
         DetailEntity.deleteAllDetails()
         XCTAssertEqual(Recipe.all, [])
         XCTAssertEqual(Ingredient.all, [])
+        XCTAssertEqual(DetailEntity.all, [])
     }
 }

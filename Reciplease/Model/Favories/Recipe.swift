@@ -6,7 +6,6 @@
 //  Copyright © 2018 Amg-Industries. All rights reserved.
 //
 
-import Foundation
 import CoreData
 
 class Recipe: NSManagedObject {
